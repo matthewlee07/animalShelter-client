@@ -1,17 +1,26 @@
 'use strict';
 
 import React from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
 
-export class Pets extends React.Component {
-
+export default class Pets extends React.Component {
+  onClick() {
+    const selection = this.props.type;
+    if (selection === 'cat') {
+      this.props.dispatch(actions.adoptCat())
+    }
+    else if (selection === 'dog') {
+      this.props.dispatch(actions.adoptDog())
+    }
+  }
 
   render() {
     return (
       <div className='section'>
         <header role='banner'>
           <h2>{this.props.animal.name}</h2>
-          <img src={this.props.animal.photo} alt='Picture of animal' />
+          <img src={this.props.animal.photo} alt='Picture of cat' />
         </header>
         <main role='main'>
           <dl>
@@ -24,9 +33,10 @@ export class Pets extends React.Component {
             <dt>Story</dt>
             <dd>{this.props.animal.story}</dd>
           </dl>
-          <button className='adopt-button' onClick={this.props.onAdoptAnimal}>Adopt</button>
+          <button className='adopt-button' onClick={event => this.onClick(event)}>Adopt</button>
         </main>
       </div>
     )
   }
 }
+

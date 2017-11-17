@@ -1,21 +1,29 @@
 'use strict';
 
 import React from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions'
 import Pets from '../pets/pets';
 
-export default class Dashboard extends React.Component {
-  onClick() {
-    console.log('clicked!');
-    // this.props.dispatch(actions.deleteAnimal())
+export class Dashboard extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(actions.fetchCat());
+    this.props.dispatch(actions.fetchDog());
   }
-  
+
   render() {
-  return (
-    <div className='section'>
-      <Pets animal='these will be cats' onAdoptAnimal={onClick()} />
-      <Pets animal='these will be dogs' onAdoptAnimal={onClick()} />
-    </div>
-  );
+    return (
+      <div className='section'>
+        <Pets animal={this.props.cat} type='cat' />
+        <Pets animal={this.props.dog} type='dog' />
+      </div>
+    );
+  }
 }
-}
+
+const mapStateToProps = state => ({
+  cat: state.cat,
+  dog: state.dog
+});
+
+export default connect(mapStateToProps)(Dashboard);
